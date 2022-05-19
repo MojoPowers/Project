@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -44,7 +45,7 @@ public class Travel extends LogNameEntity {
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_departure")
-    private Data dateDeparture;
+    private Date dateDeparture;
 
     //------------------------------------------------------------------------------------------------------------------
 

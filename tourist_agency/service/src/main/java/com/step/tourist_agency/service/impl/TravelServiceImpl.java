@@ -7,10 +7,14 @@ import com.step.tourist_agency.exception.EntityNotFoundException;
 import com.step.tourist_agency.repository.OrderRepository;
 import com.step.tourist_agency.repository.TravelRepository;
 import com.step.tourist_agency.service.TravelService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +35,8 @@ public class TravelServiceImpl implements TravelService {
         this.travelConverter = travelConverter;
     }
 
+//----------------------------------------------------------------------------------------------------------------
+
     @Override
     public TravelDto findOne(Long id) {
         return travelConverter.convert(
@@ -41,10 +47,14 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    public List<TravelDto> findAll(Sort sort) {
-//        Sort allTravelSort = new Sort(new Sort.Order(Sort.Direction.ASC,"type"),
-//                new Sort.Order(Sort.Direction.ASC, "price"));
-        return convert(travelRepository.findAll(Sort.by(Sort.Direction.ASC, "type")));
+    public List<TravelDto> findAll(Integer pageNumber, Integer pageSize, String sortBy) {
+        Pageable paging = PageRequest.of(pageNumber,pageSize, Sort.by(sortBy));
+        Page<Travel> pagedResult = travelRepository.findAll(paging));
+        if (pagedResult.hasContent()) {
+            return convert(pagedResult.getContent());
+        } else {
+            return new ArrayList<TravelDto>();
+        }
     }
 
     @Override

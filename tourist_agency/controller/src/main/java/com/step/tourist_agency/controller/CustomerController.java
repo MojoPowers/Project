@@ -19,4 +19,5 @@ public interface CustomerController {
 
     @DeleteMapping("/remove")
     void remove(@RequestParam("id") Long id);
+
 }

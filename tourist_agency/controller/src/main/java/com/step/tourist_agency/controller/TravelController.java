@@ -19,4 +19,5 @@ public interface TravelController {
 
     @DeleteMapping("/remove")
     void remove(@RequestParam("id") Long id);
+
 }
